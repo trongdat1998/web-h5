@@ -1,0 +1,49 @@
+@import "../../theme.less";
+
+.g-radio {
+  display: flex;
+  align-items: center;
+  .radio {
+    width: 16px;
+    height: 16px;
+    background: transparent;
+    border-radius: 50%;
+    border: 1px solid @c001;
+    display: flex;
+    overflow: hidden;
+    justify-items: center;
+    align-items: center;
+    margin: 0 8px 0 0;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    &::after {
+      display: block;
+      content: " ";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin: 0 auto;
+      transition: all 0.3s ease-in-out;
+    }
+  }
+}
+.g-radio-checked {
+  .radio {
+    border: 1px solid @blue;
+    &::after {
+      background: @blue;
+    }
+  }
+}
+.g-radio-disabled {
+  .radio {
+    background: @c002;
+    &::after {
+      background: none;
+    }
+  }
+}
+.g-radio-suffix {
+  font-size: 14px;
+  color: @white;
+}

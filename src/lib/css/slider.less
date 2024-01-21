@@ -1,0 +1,36 @@
+@import "../../theme.less";
+
+:global {
+  .rc-slider {
+  }
+  .rc-slider-rail {
+    background: @bg003;
+  }
+  .rc-slider-track {
+    background: @blue;
+  }
+  .rc-slider-handle {
+    border: 2px solid @blue;
+    background: @bg003;
+    &:active,
+    &:focus {
+      box-shadow: 0 0 0 rgba(0, 0, 0, 0) !important;
+    }
+  }
+  .rc-slider-tooltip-inner {
+    padding: 0;
+    min-width: 40px;
+    height: 30px;
+    font-size: 12px;
+    line-height: 30px;
+    color: @white;
+    text-align: center;
+    text-decoration: none;
+    background-color: @bg003;
+    border-radius: 0px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  }
+  .rc-slider-tooltip-placement-top .rc-slider-tooltip-arrow {
+    border-top-color: @bg003;
+  }
+}

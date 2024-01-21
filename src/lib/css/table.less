@@ -1,0 +1,60 @@
+@import "../../theme.less";
+
+.g-table {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: @bg002;
+
+  .theader {
+    display: flex;
+    height: 40px;
+    align-items: center;
+    color: @c002;
+    font-size: 12px;
+    div {
+      flex: 1;
+      &:first-child {
+        padding: 0 0 0 20px;
+      }
+    }
+  }
+  .tbody {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    border-top: 1px solid @b001;
+  }
+  .item {
+    display: flex;
+    height: 40px;
+    align-items: center;
+    color: @white;
+    border-bottom: 1px solid @b001;
+    div {
+      flex: 1;
+      white-space: nowrap;
+      &:first-child {
+        padding: 0 0 0 20px;
+      }
+      .action {
+        color: @light_blue;
+      }
+    }
+    &:hover {
+      background: @bg003;
+    }
+    .grey {
+      color: @c002;
+    }
+    .grey02 {
+      color: @c001;
+    }
+  }
+  .noresult {
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: @fff60;
+  }
+}

@@ -1,0 +1,53 @@
+@import "../../theme.less";
+
+.g-switch {
+  font-size: 14px;
+  line-height: 1.5;
+  color: rgba(0, 0, 0, 0.65);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  position: relative;
+  display: inline-block;
+  height: 22px;
+  min-width: 44px;
+  line-height: 20px;
+  vertical-align: middle;
+  border-radius: 100px;
+  border: 1px solid transparent;
+  background-color: rgba(0, 0, 0, 0.25);
+  transition: all 0.36s cubic-bezier(0.78, 0.14, 0.15, 0.86);
+  cursor: pointer;
+  span {
+    color: @white;
+    font-size: 12px;
+    margin-left: 24px;
+    margin-right: 6px;
+    display: block;
+  }
+  &:after,
+  &:before {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    left: 1px;
+    top: 1px;
+    border-radius: 18px;
+    background-color: @white;
+    content: " ";
+    cursor: pointer;
+    transition: all 0.36s cubic-bezier(0.78, 0.14, 0.15, 0.86);
+  }
+}
+.g-switch-checked {
+  background-color: @blue;
+  span {
+    margin-left: 6px;
+    margin-right: 24px;
+  }
+  &:after,
+  &:before {
+    left: 100%;
+    margin-left: -19px;
+  }
+}

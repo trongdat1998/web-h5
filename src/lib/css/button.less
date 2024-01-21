@@ -1,0 +1,60 @@
+@import "../../theme.less";
+
+.g-btn {
+  display: inline-block;
+  border: 0;
+  text-align: center;
+
+  transition: all 0.25s ease-out;
+  vertical-align: middle;
+  font-size: 14px;
+  outline: none;
+  padding: 6px 20px;
+  background: @blue;
+  color: @white;
+  width: 100%;
+  border-radius: 4px;
+  cursor: pointer;
+  &:disabled {
+    cursor: not-allowed;
+    background: @bg009;
+    color: @c002;
+    &:hover {
+      background: @bg009;
+      color: @c002;
+    }
+  }
+  &:hover {
+    opacity: 0.6;
+  }
+}
+.g-btn-red {
+  background: @red;
+  // &:hover {
+  //   background: @c12;
+  // }
+}
+.g-btn-green {
+  background: @green;
+  // &:hover {
+  //   background: @c14;
+  // }
+}
+
+.g-btn-group {
+  display: flex;
+  width: 100%;
+  border-top: 1px solid @b001;
+  .g-btn {
+    flex: 1;
+    border-radius: 0;
+  }
+  &.g-btn-group-justify {
+    display: flex;
+    width: 100%;
+    .g-btn,
+    .g-btn-hollow {
+      flex: 1;
+    }
+  }
+}

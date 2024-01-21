@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <script>
+    window["G_STARTIME"] = new Date().getTime();
+  </script>
+  <meta charset="UTF-8" />
+  <title>download App</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta content="yes" name="apple-mobile-web-app-capable" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="viewport"
+    content="minimum-scale=1, initial-scale=1, maximum-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no" />
+  <meta name="google" content="notranslate" />
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    .root {
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+    }
+
+    #view {
+      display: none;
+    }
+
+    #info {
+      width: 100vw;
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      padding: 20px;
+    }
+
+    #info a {
+      display: block;
+      height: 40px;
+      line-height: 40px;
+      background: #3375e0;
+      color: #fff;
+      border-radius: 2px;
+      text-align: center;
+      text-decoration: none;
+      margin: 20px 0 0;
+    }
+
+    #image img {
+      width: 100%;
+    }
+  </style>
+  <script>
+    function cookie(value) {
+      var str = value.name + "=" + encodeURIComponent(value.value);
+      if (value.domain) {
+        str += "; domain=" + value.domain;
+      }
+      str += "; path=" + (value.path || "/");
+      if (value.day) {
+        var time = new Date();
+        time.setTime(time.getTime() + value.day * 24 * 60 * 60 * 1000);
+        str += "; expires=" + time.toGMTString();
+      }
+      document.cookie = str;
+      return;
+    }
+
+    function read(name) {
+      var value = document.cookie.match("(?:^|;)\\s*" + name + "=([^;]*)");
+      return value ? decodeURIComponent(value[1]) : null;
+    }
+
+    function browserLang() {
+      var ls = navigator.languages ? navigator.languages.length : 0;
+      return (ls
+        ? navigator.languages[0]
+        : navigator.language || navigator.userLanguage
+      ).toLowerCase();
+    }
+
+    function langPath(lang) {
+      var default_langs = {
+        "en-us": "en-us",
+        "zh-cn": "zh-cn"
+      };
+      var default_lang = default_langs[browserLang()] || "en-us";
+      var _lang =
+        lang ||
+        (localStorage.lang
+          ? read("locale") || localStorage.lang.toLowerCase()
+          : browserLang()),
+        _langDefault = default_lang;
+      // 不在语言列表,默认为en-us;
+      if (!_lang) {
+        _lang = _langDefault;
+      }
+      // 如果是app环境
+      if (/bhe.?App/i.test(navigator.userAgent)) {
+        _lang = navigator.userAgent.match(/lang\/[^\s]{1,}/i);
+        if (_lang[0]) {
+          _lang = _lang[0].split("/");
+          _lang = _lang[_lang.length - 1].toLowerCase();
+        }
+      }
+      localStorage.lang = _lang;
+      var tmp = location.hostname.split(".");
+      cookie({
+        name: "locale",
+        value: _lang,
+        domain: location.hostname.replace(tmp.shift() + ".", "")
+      });
+    }
+    langPath();
+  </script>
+</head>
+
+<body>
+  <div class="root" id="root">
+    <div id="view"
+      style="position: fixed;left: 0; top: 0; width: 100%; z-index: 99; background: rgb(52, 52, 52); margin-left: 0; margin-right: 0; padding-top: 30px; padding-bottom: 30px; box-shadow: rgba(22, 22, 23, 0.62) 0px -10px 16px inset;">
+      <div style="padding-right: 50px; padding-left: 30px;">
+        <p style="color: #7f7e7e; margin: 0;" id="desc"></p>
+      </div>
+    </div>
+    <div id="image"></div>
+    <div id="info"></div>
+  </div>
+  <script>
+    var wechat = 0;
+    var lang = window.localStorage.lang;
+    var view = document.getElementById("view");
+    var desc = document.getElementById("desc");
+    var desc_text =
+      lang == "zh-cn"
+        ? "点击右上角按钮，然后在弹出的菜单中，点击在浏览器中打开，即可安装"
+        : "click on the upper right button, from the pop up menu click to select open up with internet browser and you may proceed to install.";
+    if (/micromessenger/i.test(window.navigator.userAgent)) {
+      wechat = 1;
+      if (view) {
+        view.style.cssText += "; display:block;";
+      }
+      if (desc) {
+        desc.innerHTML = desc_text;
+      }
+    }
+    var info = document.getElementById("info");
+    var root = document.getElementById("root");
+    var image = document.getElementById("image");
+    function setInner(data) {
+      if (!data) {
+        window.location.href = "/m/error.html";
+        return;
+      }
+      var d = JSON.parse(data);
+      // 背景
+      if (d.androidGuideImageUrl && image) {
+        image.innerHTML = "<img src='" + d.androidGuideImageUrl + "' />";
+      }
+      // 下载链接
+      var a = "";
+      if (d.androidDownloadUrl) {
+        if (lang == "zh-cn") {
+          a +=
+            '<a href="' +
+            d.androidDownloadUrl +
+            '" target="_blank">本地下载</a>';
+        } else {
+          a +=
+            '<a href="' +
+            d.androidDownloadUrl +
+            '" target="_blank">LOCAL DOWNLOAD</a>';
+        }
+      }
+      if (d.googlePlayDownloadUrl) {
+        a +=
+          '<a href="' +
+          d.googlePlayDownloadUrl +
+          '" target="_blank">Google Paly</a>';
+      }
+      if (info) {
+        info.innerHTML = a;
+      }
+    }
+    var xhr = new XMLHttpRequest();
+    xhr.addEventListener(
+      "load",
+      function (e) {
+        var res = e.target;
+        if (res.readyState == 4 && res.status == 200) {
+          setInner(res.response);
+        }
+      },
+      false
+    );
+    xhr.addEventListener(
+      "error",
+      function () {
+        window.location.href = "/m/error.html";
+      },
+      false
+    );
+    xhr.open("post", "/s_api/basic/download/info");
+    xhr.send();
+  </script>
+</body>
+
+</html>

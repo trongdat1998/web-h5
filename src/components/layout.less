@@ -1,0 +1,133 @@
+@import "../theme.less";
+
+.g_header {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  background: none;
+  z-index: 1;
+}
+
+.logo {
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  color: @fff100;
+  margin: 0 0 0 30px;
+  width: 140px;
+  position: relative;
+  span {
+    display: flex;
+    width: 32px;
+    height: 16px;
+    font-size: 12px;
+    line-height: 14px;
+    background: @white;
+    color: @bg001;
+    border-radius: 8px;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: -38px;
+    top: 18px;
+  }
+  img {
+    width: 100%;
+  }
+}
+.menu {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  margin: 0;
+  padding: 0 0 0 30px;
+  font-size: 14px;
+  li {
+    padding: 0 30px;
+    font-size: 14px;
+  }
+}
+.login,
+.userInfo,
+.chooselang {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+.login {
+  li {
+    padding: 0 15px;
+  }
+}
+.chooselang {
+  padding: 0 5px;
+  // margin: 0 20px 0 0;
+  margin: 0 25px 0 0;
+}
+.lang {
+  display: flex;
+  align-items: center;
+  color: @white;
+  i {
+    font-size: 12px;
+    transform: rotateZ(90deg);
+    margin: 0 0 0 5px;
+  }
+}
+.userInfo {
+  min-width: 160px;
+  padding: 0 10px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  > li {
+    margin: 0 15px;
+  }
+}
+
+.g_pd10 {
+  padding: 10px;
+}
+.g_pdt10 {
+  padding-top: 10px;
+}
+
+.g_btn {
+  width: 46px;
+  color: @white;
+  text-align: left;
+  display: flex;
+  margin: 0;
+  padding: 0;
+  justify-content: center;
+  align-items: center;
+  line-height: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  &:hover {
+    color: @blue;
+  }
+}
+
+// header 下拉menu
+.myFinance {
+  background: none;
+  :global {
+    .rc-menu-item-active,
+    .rc-menu-submenu-active,
+    .rc-menu-submenu-active > .rc-menu-submenu-title {
+      background: none;
+      color: @blue;
+    }
+    .rc-menu-item,
+    .rc-menu-submenu > .rc-menu-submenu-title {
+      padding: 10px 0;
+    }
+    .rc-menu-submenu {
+      border: 0;
+    }
+  }
+}

@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <script>
+    window["G_STARTIME"] = new Date().getTime();
+  </script>
+  <meta charset="UTF-8" />
+  <title></title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta content="yes" name="apple-mobile-web-app-capable" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="viewport"
+    content="minimum-scale=1, initial-scale=1, maximum-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no" />
+
+  <meta name="google" content="notranslate" />
+  <script src="https://static.nucleex.com/public/polyfill.min.js"></script>
+  <script>
+    // 皮肤设置
+    window.palette = {
+      common: {
+        black: "#242B32",
+        text: "#242B32",
+        surface: "#fff",
+        white: "#fff",
+        background: "#fff",
+      },
+      type: "light",
+      primary: {
+        main: "#3375E0",
+        light: "#4299FF",
+        dark: "#1F5DC1",
+        contrastText: "#fff",
+      },
+      secondary: {
+        main: "#FFC000",
+        light: "#FFF04E",
+        dark: "#F69400",
+        contrastText: "#000",
+      },
+      error: {
+        light: "#FF695E",
+        main: "#D23434",
+        dark: "#99000D",
+        contrastText: "#fff",
+      },
+      success: {
+        main: "#51D372",
+        light: "#51D372",
+        dark: "#51D372",
+        contrastText: "#fff",
+      },
+      down: {
+        light: "#FF695E",
+        main: "#D23434",
+        dark: "#99000D",
+        contrastText: "#fff",
+      },
+      up: {
+        main: "#51D372",
+        light: "#51D372",
+        dark: "#51D372",
+        contrastText: "#fff",
+      },
+      grey: {
+        50: "#F4F4F5",
+        100: "#E9EAEB",
+        200: "#D3D5D6",
+        500: "#919598",
+        800: "#50555B",
+      },
+      contrastThreshold: 3,
+      tonalOffset: 0.2,
+      text: {
+        primary: "#242B32",
+      },
+      divider: "rgba(0, 0, 0, 0.12)",
+      background: {
+        paper: "#fff",
+        default: "#fff",
+        dark: "#0A1825",
+        part: "#F7F9FC",
+      },
+      action: {
+        active: "rgba(0, 0, 0, 0.54)",
+        hover: "rgba(0, 0, 0, 0.08)",
+        hoverOpacity: 0.08,
+        selected: "rgba(0, 0, 0, 0.14)",
+        disabled: "rgba(0, 0, 0, 0.26)",
+        disabledBackground: "rgba(0, 0, 0, 0.12)",
+      },
+    };
+    window.palette2 = {
+      dark: {},
+      light: {},
+    };
+  </script>
+  <script>
+    !(function () {
+      if (!window.localStorage) {
+        return false;
+      }
+      function setCookie(value) {
+        var str = value.name + "=" + encodeURIComponent(value.value);
+        if (value.domain) {
+          str += "; domain=" + value.domain;
+        }
+        str += "; path=" + (value.path || "/");
+        if (value.day) {
+          var time = new Date();
+          time.setTime(time.getTime() + value.day * 24 * 60 * 60 * 1000);
+          str += "; expires=" + time.toGMTString();
+        }
+        document.cookie = str;
+        return;
+      }
+
+      function getCookie(name) {
+        var value = document.cookie.match("(?:^|;)\\s*" + name + "=([^;]*)");
+        return value ? decodeURIComponent(value[1]) : null;
+      }
+
+      if (/preview/.test(window.location.search)) {
+        var domain = window.location.origin.split(".");
+        if (domain.length > 2) {
+          domain.splice(0, 1);
+        }
+        domain = [""].concat(domain);
+        if (window.location.href.indexOf("localhost") > -1) {
+          domain = ["localhost"];
+        }
+        setCookie({
+          name: "preview",
+          value: 1,
+          domain: domain.join("."),
+        });
+      }
+
+      function S4() {
+        return (((1 + Math.random()) * 0x10000) | 0)
+          .toString(16)
+          .substring(1);
+      }
+
+      function guid(deviceId) {
+        var id = getCookie("__uuid");
+        if (!id) {
+          id = [
+            "BH",
+            deviceId,
+            S4(),
+            S4(),
+            S4(),
+            getDeviceId(location.host),
+          ].join("-");
+          setCookie({
+            name: "__uuid",
+            value: id,
+            domain: location.hostname.replace(/^www\.|otc\./, "."),
+            day: 900,
+          });
+        }
+        return id;
+      }
+
+      function bin2hex(str) {
+        var result = "";
+        for (i = 0; i < str.length; i++) {
+          result += int16_to_hex(str.charCodeAt(i));
+        }
+        return result;
+      }
+
+      function int16_to_hex(i) {
+        var result = i.toString(16);
+        var j = 0;
+        while (j + result.length < 4) {
+          result = "0" + result;
+          j++;
+        }
+        return result;
+      }
+
+      function getDeviceId(domain) {
+        var canvas = document.createElement("canvas");
+        var ctx = canvas.getContext("2d");
+        domain = domain || "Only";
+        ctx.textBaseline = "top";
+        ctx.font = "14px 'Arial'";
+        ctx.textBaseline = "tencent";
+        ctx.fillStyle = "#f60";
+        ctx.fillRect(125, 1, 62, 20);
+        ctx.fillStyle = "#069";
+        ctx.fillText(domain, 2, 15);
+        ctx.fillStyle = "rgba(102, 204, 0, 0.7)";
+        ctx.fillText(domain, 4, 17);
+        var b64 = canvas.toDataURL().replace("data:image/png;base64,", "");
+        if (window.atob) {
+          return bin2hex(atob(b64).slice(-16, -12));
+        } else {
+          return "Noatob" + bin2hex(b64.slice(-16, -12));
+        }
+      }
+
+      var deviceId = getDeviceId();
+      var uuid = guid(deviceId);
+
+      var pageStartTime = new Date().getTime();
+
+      function concat(obj, obj2) {
+        var newObj = {};
+        for (var key in obj) {
+          newObj[key] = obj[key];
+        }
+        for (var _key in obj2) {
+          newObj[_key] = obj2[_key];
+        }
+        return newObj;
+      }
+
+      function trackPageError(json) {
+        try {
+          var str = JSON.stringify(
+            concat(
+              {
+                type: null,
+                cost: null,
+                http_code: null,
+                error_code: null,
+                error_message: null,
+                request_url: null,
+                timestamp: new Date().getTime(),
+                location_href: window.location.href,
+                referrer: document.referrer || null,
+                screen: [
+                  document.documentElement.clientWidth,
+                  document.documentElement.clientHeight,
+                ].join("*"),
+                user_id: getCookie("user_id") || deviceId,
+                uuid: uuid,
+                pl: "01",
+              },
+              json
+            )
+          );
+          if (localStorage.PageError) {
+            var tmp = localStorage.PageError.split("@_@");
+            tmp.push(str);
+            if (tmp.length >= 10) {
+              uploadPageError();
+            } else {
+              localStorage.PageError = tmp.join("@_@");
+            }
+          } else {
+            localStorage.PageError = str;
+          }
+        } catch (e) {
+          return false;
+        }
+      }
+
+      function uploadPageError() {
+        if (localStorage.PageError) {
+          var xhr = new XMLHttpRequest();
+          xhr.open("POST", "https://analyze.nucleex.com/analyze");
+          xhr.send(["[", localStorage.PageError.split("@_@"), "]"].join(""));
+          localStorage.removeItem("PageError");
+        }
+      }
+
+      function autoUpload() {
+        cdnspeed();
+        uploadPageError();
+        setTimeout(autoUpload, 2e4);
+      }
+
+      function cdnspeed() {
+        var start = new Date().getTime();
+        var img = document.createElement("img");
+        img.onload = img.onerror = function (event) {
+          var e = event || {};
+          trackPageError({
+            type: "cdn_speed",
+            cost: new Date().getTime() - start,
+            error_message: e.type,
+          });
+          img.onload = img.onerror = null;
+        };
+        img.src = [
+          "https://static.nucleex.com/static/collect.gif",
+          Math.random(),
+        ].join("?");
+      }
+
+      autoUpload();
+      window["trackPageError"] = trackPageError;
+
+      if (window.addEventListener) {
+        window.addEventListener(
+          "load",
+          function () {
+            var cost = new Date().getTime() - pageStartTime;
+            trackPageError({
+              type: "html_slow",
+              cost: cost,
+            });
+          },
+          true
+        );
+      }
+    })();
+  </script>
+  <script>
+    // function setFontSize() {
+    //   let htmlWidth =
+    //     document.documentElement.clientWidth || document.body.clientWidth;
+    //   let htmlDom = document.getElementsByTagName("html")[0];
+    //   if (htmlWidth > 750) {
+    //     htmlWidth = 750;
+    //   }
+    //   htmlDom.style.fontSize = ((htmlWidth * 2) / 750) * 16 + "px";
+    window["n"] = 14;
+      // }
+      // setFontSize();
+      // window.addEventListener("resize", () => setFontSize(), false);
+  </script>
+  <script>
+    window.WEB_CONFIG = {
+      page: {},
+      supportLanguages: [],
+      token: [],
+      tokens: {},
+      symbol: [],
+      symbols: {},
+      supportLanguages: [],
+      recommendSymbols: [],
+      quoteToken: [],
+      page: {},
+      orgId: "",
+      optionUnderlying: [],
+      optionToken: [],
+      optionSymbol: [],
+      optionQuoteToken: [],
+      optionCoinToken: [],
+      kycCardType: [],
+      futuresUnderlying: [],
+      futuresSymbol: [],
+      futuresCoinToken: [],
+      functions: {},
+      exploreToken: [],
+      customKV: {},
+      checkInviteCode: false,
+      symbols_obj: {
+        coin: {},
+        option: {},
+        futures: {},
+        all: {},
+      },
+    };
+  </script>
+  <script>
+    window.__set_config = function (data) {
+      window.WEB_CONFIG = data;
+      window.WEB_CONFIG.page = data.page || {};
+      window.WEB_CONFIG.supportLanguages = data.supportLanguages || [];
+      window.WEB_CONFIG.checkInviteCode = data.checkInviteCode;
+      window.WEB_CONFIG.registerOption = data.registerOption || 1;
+
+      // 重置皮肤数据
+      /**
+       * [
+       * {content:{ theme: {}, kline: {} }
+       * type: 1,2; 1=light,2=dark
+       * useModule:1,2;   1=全站,2=行情页
+       * tagName: ''
+       * },
+       * ...
+       * }
+       */
+      if (
+        window.WEB_CONFIG.colorTheme &&
+        window.WEB_CONFIG.colorTheme.length
+      ) {
+        // 全站theme
+        var all = {};
+        var kline = {
+          dark: {},
+          light: {},
+        };
+        window.WEB_CONFIG.colorTheme.map((item) => {
+          if (item.useModule == 1 && item.type == 1) {
+            all = item.content;
+            if (item.content.success && !item.content.up) {
+              all.up = item.content.success;
+            }
+            if (item.content.error && !item.content.down) {
+              all.down = item.content.error;
+            }
+          }
+          if (item.useModule == 2 && item.type == 1) {
+            kline.light = item.content;
+          }
+          if (item.useModule == 2 && item.type == 2) {
+            kline.dark = item.content;
+          }
+        });
+        window.palette = Object.assign(window.palette, all || {});
+        window.palette2 = {
+          dark: Object.assign(window.palette2.dark, kline.dark),
+          light: Object.assign(window.palette2.light, kline.light),
+        };
+      }
+
+      if (data.customKV) {
+        window.WEB_CONFIG.loginReg = data.customKV.loginReg || [];
+        window.WEB_CONFIG.analytics = data.customKV.analytics || {};
+      } else {
+        window.WEB_CONFIG.loginReg = [];
+        window.WEB_CONFIG.analytics = {};
+      }
+    };
+  </script>
+  <script>
+    var init_jsbridge = false;
+    // 初始化开始 jsbridge
+    function connectWebViewJavascriptBridge(callback) {
+      init_jsbridge = true;
+
+      var ua = navigator.userAgent.toLowerCase();
+      if (/iphone|ipad|ipod/.test(ua)) {
+        if (window.WebViewJavascriptBridge) {
+          callback(WebViewJavascriptBridge);
+        }
+        if (window.WVJBCallbacks) {
+          return window.WVJBCallbacks.push(callback);
+        }
+        window.WVJBCallbacks = [callback];
+      } else if (/android/.test(ua)) {
+        if (window.WebViewJavascriptBridge) {
+          callback(WebViewJavascriptBridge);
+        } else {
+          document.addEventListener(
+            "WebViewJavascriptBridgeReady",
+            function () {
+              callback(WebViewJavascriptBridge);
+              // 处理注入之前就调用了bridge的队列
+              if (window.WVJBCallbacks && window.WVJBCallbacks.length) {
+                function cback(res, opt) {
+                  if (
+                    Object.prototype.toString.call(res) == "[object String]"
+                  ) {
+                    res = eval("(" + res + ")");
+                  }
+                  if (res.result && res.result.code == "OK") {
+                    opt.success && opt.success(res);
+                  } else {
+                    opt.error && opt.error(res);
+                  }
+                }
+                function cb(opt) {
+                  if (opt.data) {
+                    WebViewJavascriptBridge.callHandler(
+                      opt.name,
+                      opt.data,
+                      function (res) {
+                        cback(res, opt);
+                      }
+                    );
+                  } else {
+                    WebViewJavascriptBridge.callHandler(opt.name, function (
+                      res
+                    ) {
+                      cback(res, opt);
+                    });
+                  }
+                }
+                var callbacks = window.WVJBCallbacks;
+                delete window.WVJBCallbacks;
+                for (var i = 0, l = callbacks.length; i < l; i++) {
+                  cb(callbacks[i]);
+                }
+              }
+            },
+            false
+          );
+        }
+      } else {
+        //alert('仅支持iphone和android');
+      }
+      //android调用该方法获得bridge对象
+
+      //IOS调用该方法获得bridge对象
+      var WVJBIframe = document.createElement("iframe");
+      WVJBIframe.style.display = "none";
+      // 链友圈app不加载js bridge
+      if (
+        location.search.indexOf("source=lianyouquan") == -1 &&
+        document.cookie.indexOf("source=lianyouquan") == -1
+      ) {
+        WVJBIframe.src = "wvjbscheme://__BRIDGE_LOADED__";
+      }
+      document.documentElement.appendChild(WVJBIframe);
+
+      setTimeout(function () {
+        document.documentElement.removeChild(WVJBIframe);
+        return callback(null);
+      }, 10);
+    }
+
+    connectWebViewJavascriptBridge(function (bridge) {
+      /android/i.test(navigator.userAgent) &&
+        bridge &&
+        bridge.init(function (message, responseCallback) { });
+    });
+    window.addEventListener("pageshow", function (event) {
+      // if (!init_jsbridge) {
+      //   window.location.reload();
+      //   return;
+      // }
+      connectWebViewJavascriptBridge(function (bridge) {
+        /android/i.test(navigator.userAgent) &&
+          bridge &&
+          bridge.init(function (message, responseCallback) { });
+      });
+    });
+  </script>
+  <script
+    src="/s_api/basic/config_v2_js?custom_keys=loginReg,analytics&callback=window.__set_config&tab=mobile&type=all&without_country=true&platform=2"></script>
+  <script>
+    var _langList = [];
+    var _langIcon = {};
+    for (
+      var i = 0, l = window.WEB_CONFIG.supportLanguages.length;
+      i < l;
+      i++
+    ) {
+      _langList.push(
+        window.WEB_CONFIG.supportLanguages[i]["lang"].toLowerCase()
+      );
+      _langIcon[window.WEB_CONFIG.supportLanguages[i]["lang"].toLowerCase()] =
+        window.WEB_CONFIG.supportLanguages[i]["icon"];
+    }
+
+    (function () {
+      function cookie(value) {
+        var str = value.name + "=" + encodeURIComponent(value.value);
+        value.domain =
+          value.domain ||
+          location.hostname.replace(
+            location.hostname.split(".").shift() + ".",
+            ""
+          );
+        if (value.domain) {
+          str += "; domain=" + value.domain;
+        }
+        str += "; path=" + (value.path || "/");
+        if (value.day) {
+          var time = new Date();
+          time.setTime(time.getTime() + value.day * 24 * 60 * 60 * 1000);
+          str += "; expires=" + time.toGMTString();
+        }
+        document.cookie = str;
+        return;
+      }
+
+      function read(name) {
+        var value = document.cookie.match("(?:^|;)\\s*" + name + "=([^;]*)");
+        return value ? decodeURIComponent(value[1]) : null;
+      }
+
+      function browserLang() {
+        var ls = navigator.languages ? navigator.languages.length : 0;
+        return (ls
+          ? navigator.languages[0]
+          : navigator.language || navigator.userLanguage
+        ).toLowerCase();
+      }
+
+      function ismobile() {
+        return /iphone|android|ipad/i.test(navigator.userAgent);
+      }
+
+      // ?source=xxxxx,写入cookie
+      function utm_source() {
+        var s = window.location.search;
+        var code = s.match(/(utm_source|source)\=([^&]{0,})/);
+        if (code && code[2]) {
+          cookie({
+            name: "source",
+            value: code[2],
+            domain: location.hostname.replace(
+              location.hostname.split(".").shift() + ".",
+              ""
+            ),
+            day: 1,
+          });
+        }
+        var lang = s.match(/lang\=([^&]{0,})/);
+        if (lang && lang[1]) {
+          localStorage.lang = lang[1].toLowerCase();
+          cookie({
+            name: "locale",
+            value: lang[1].toLowerCase(),
+            domain: location.hostname.replace(
+              location.hostname.split(".").shift() + ".",
+              ""
+            ),
+          });
+        }
+      }
+      utm_source();
+
+      function platform() {
+        localStorage.platform = "pc";
+        if (ismobile()) {
+          localStorage.platform = "mobile";
+        }
+        if (/bhe.?App/i.test(navigator.userAgent)) {
+          localStorage.platform = "bheApp";
+          cookie({
+            name: "app",
+            value: "bheApp",
+          });
+        }
+        if (/MicroMessenger/i.test(navigator.userAgent)) {
+          localStorage.platform = "weChat";
+        }
+      }
+      platform();
+
+      function langPath(lang) {
+        var default_langs = {
+          "en-us": "en-us",
+          "zh-cn": "zh-cn",
+        };
+        var default_lang = default_langs[browserLang()] || "en-us";
+        var _lang =
+          lang ||
+          read("locale") ||
+          (localStorage.lang
+            ? localStorage.lang.toLowerCase()
+            : browserLang()),
+          _langDefault = _langList[0] || default_lang;
+        // 不在语言列表,默认为en-us;
+        if (!_lang || _langList.indexOf(_lang) === -1) {
+          _lang = _langDefault;
+        }
+        // 如果是app环境
+        if (/bhe.?App/i.test(navigator.userAgent)) {
+          _lang = navigator.userAgent.match(/lang\/[^\s]{1,}/i);
+          if (_lang[0]) {
+            _lang = _lang[0].split("/");
+            _lang = _lang[_lang.length - 1].toLowerCase();
+          }
+        }
+        localStorage.lang = _lang;
+        localStorage.unit = _lang; // 法币单位
+        window.localStorage.up_down = 0; // 配色方案，默认 0 = 红跌绿涨
+        localStorage.lang_icon = _langIcon[_lang];
+        var tmp = location.hostname.split(".");
+        cookie({
+          name: "locale",
+          value: _lang,
+          domain: location.hostname.replace(tmp.shift() + ".", ""),
+        });
+      }
+      langPath();
+      window.g_k_ticker = {};
+    })();
+  </script>
+  <!-- <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" /> -->
+  <style>
+    ._g_mask {
+      width: 100%;
+      width: 100vw;
+      height: 100%;
+      height: 100vh;
+      position: absolute;
+      left: 0;
+      top: 0;
+      z-index: 100;
+      background: #fff;
+      color: #272d42;
+      display: none;
+    }
+
+    ._g_mask i {
+      font-size: 24px;
+      position: absolute;
+      margin: auto;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 24px;
+      height: 24px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="root"></div>
+  <div class="_g_mask" id="_g_mask">
+    <i class="g-icon g-icon-loading-3-quarters g-icon-spin"></i>
+  </div>
+  <script>
+    document.addEventListener(
+      "touchstart",
+      function (event) {
+        if (event.touches.length > 1) {
+          event.preventDefault();
+        }
+      },
+      { passive: false }
+    );
+    window.addEventListener(
+      "error",
+      function (error) {
+        var e = document.getElementById("root");
+        if (e && e.innerHTML == "") {
+          var ua = navigator.userAgent.toLowerCase();
+          var v = navigator.userAgent.match(/chrome\/(\d){1,}/i);
+          if (v && v[0]) {
+            v = v[0].split("/");
+            v = Number(v[1]);
+          }
+          if (
+            ua.indexOf("android") > -1 &&
+            !/microMessenger/i.test(ua) &&
+            v <= 50
+          ) {
+            location.href = "/m/download.html";
+          }
+        }
+      },
+      false
+    );
+  </script>
+  <!-- <script src="https://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script> -->
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script>
+    setTimeout(function () {
+      window.dataLayer = window.dataLayer || [];
+      (function () {
+        var gg = document.createElement("script");
+        gg.src = "https://www.googletagmanager.com/gtag/js?id=UA-122928531-1";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(gg, s);
+      })();
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "UA-122928531-1");
+      if (WEB_CONFIG.analytics && WEB_CONFIG.analytics.google) {
+        gtag("config", WEB_CONFIG.analytics.google);
+      }
+
+      if (WEB_CONFIG.analytics && WEB_CONFIG.analytics.baidu) {
+        var _hmt = _hmt || [];
+        (function () {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?" + WEB_CONFIG.analytics.baidu;
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    }, 5000);
+  </script>
+  <script>
+    window.addEventListener(
+      "load",
+      function () {
+        var time = new Date().getTime();
+        window.g_report &&
+          window.g_report(
+            "html_slow",
+            window.location.pathname,
+            time - G_STARTIME
+          );
+      },
+      false
+    );
+  </script>
+</body>
+
+</html>

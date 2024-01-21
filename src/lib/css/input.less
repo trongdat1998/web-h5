@@ -1,0 +1,137 @@
+@import "../../theme.less";
+
+.g-input {
+  max-width: 100%;
+  position: relative;
+  border: 1px solid @b002;
+  border-radius: 3px;
+  caret-color: @white;
+  color: @white;
+  transition: all ease-in-out 0.3s;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  .g-input-suffix,
+  .g-input-prefix {
+    color: @b002;
+    i {
+      color: @b002;
+    }
+  }
+  &:focus,
+  &:hover {
+    // border-color: @fff75;
+    // box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+    // .g-input-suffix,
+    // .g-input-prefix {
+    //   color: @fff75;
+    // }
+  }
+  &.error {
+    border-color: @red;
+  }
+  &:selection {
+    border-color: @blue;
+  }
+
+  input,
+  textarea {
+    max-width: 100%;
+    outline: none;
+    width: 100%;
+    height: 100%;
+    font-size: 14px;
+    line-height: 24px;
+    padding: 0 10px;
+    margin: 0;
+    appearance: none;
+    border: 0;
+    background: none;
+    color: @white;
+    &::placeholder {
+      color: @c003;
+    }
+  }
+  input[type="checkbox"] {
+    width: 20px;
+    max-width: 20px;
+    height: 20px;
+    min-height: 20px;
+    padding: 0;
+    opacity: 0;
+  }
+  input {
+    &:-webkit-autofill {
+      -webkit-box-shadow: 0 0 0 30px @bg001 inset;
+      -webkit-text-fill-color: @white !important;
+      &:focus {
+        -webkit-text-fill-color: @white !important;
+      }
+    }
+  }
+  textarea {
+    padding: 10px;
+  }
+  .g-input-suffix {
+    color: @b002;
+    margin: 0 10px 0 0;
+  }
+  .g-input-prefix {
+    color: @b002;
+    margin: 0 0 0 10px;
+  }
+}
+.g-input-error {
+  border-color: @red;
+}
+.g-input-focus {
+  border-color: @white;
+  background-color: @bg003;
+  .g-input-suffix,
+  .g-input-prefix {
+    color: @white;
+    i {
+      color: @white;
+    }
+  }
+}
+
+.g-checkbox {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  cursor: pointer;
+  input {
+    cursor: pointer;
+  }
+}
+.g-input-checked {
+  background: @blue;
+  &:before {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 11%;
+    top: 13%;
+    font-family: iconfontshble;
+    content: "\E632";
+    display: block;
+    color: @white;
+    font-size: 12px;
+  }
+}
+
+.g-input-group {
+  position: relative;
+  max-width: 100%;
+  display: flex;
+  border: 1px solid @fff10;
+  .g-input {
+    border: 0;
+    flex: 1;
+  }
+  .g-input:last-child {
+    border: 0;
+  }
+}

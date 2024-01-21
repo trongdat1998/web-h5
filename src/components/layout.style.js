@@ -1,0 +1,163 @@
+export default (theme) => ({
+  preview: {
+    width: "100%",
+    background: theme.palette.error.main,
+    "& div": {
+      margin: "0 auto",
+      height: 30,
+      lineHeight: 1,
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      color: theme.palette.common.white,
+    },
+    "& i": {
+      color: theme.palette.common.white,
+      cursor: "pointer",
+    },
+  },
+  layout: {
+    display: "flex",
+    flexDirection: "column",
+    height: "100vh",
+    background: theme.palette.background.default,
+  },
+  layout_app: {
+    minHeight: "100vh",
+    background: theme.palette.background.default,
+  },
+  header: {
+    height: 40,
+    background: theme.palette.background.dark,
+    color: theme.palette.primary.contrastText,
+    "& img": {
+      maxHeight: 30,
+      maxWidth: 360,
+      display: "block",
+      margin: "0 auto",
+    },
+    "& i": {
+      color: theme.palette.primary.contrastText,
+    },
+  },
+  content_body: {
+    flex: 1,
+    overflow: "hidden",
+  },
+  content: {
+    height: "100%",
+    overflowY: "auto",
+    overflowX: "hidden",
+    "-webkit-overflow-scrolling": "touch",
+  },
+  content_app: {
+    "-webkit-overflow-scrolling": "touch",
+  },
+  content_con: {
+    maxWidth: 950,
+    margin: "0 auto",
+    minHeight: "100%",
+    height: "calc(100vh - 96px)",
+  },
+  content_con_app: {
+    maxWidth: 950,
+    margin: "0 auto",
+    minHeight: "100%",
+  },
+  footer: {
+    minHeight: 56,
+    boxShadow: theme.shadows[1],
+    ...theme.typography.caption,
+    color: theme.palette.common.text,
+    background: theme.palette.background.paper,
+    "& i": {
+      display: "block",
+    },
+    "& span": {
+      display: "block",
+    },
+    "& a": {
+      color: theme.palette.common.text,
+    },
+    "& a.choose": {
+      "& i": {
+        color: theme.palette.primary.main,
+      },
+    },
+  },
+  footerCon: {
+    height: "100%",
+    height: 56,
+    borderTop: `1px solid ${theme.palette.grey[50]}`,
+    textAlign: "center",
+  },
+  download_layer: {
+    background: `url(${require("../assets/mask.png")})`,
+    backgroundSize: "cover",
+    left: 0,
+    bottom: 0,
+    height: 80,
+    width: "100%",
+    display: "flex",
+    alignItems: "center",
+    color: theme.palette.primary.contrastText,
+    "& div": {
+      height: 60,
+      padding: "0 0 0 16px",
+      display: "flex",
+      alignItems: "center",
+      "&:nth-child(4n + 2)": {
+        flexDirection: "column",
+        justifyContent: "center",
+        flex: 1,
+      },
+    },
+    "& img": {
+      width: 48,
+      border: `1px solid #e9eaeb`,
+      borderRadius: 4,
+      height: 48,
+    },
+    "& h2": {
+      width: "100%",
+      maxwidth: "50vw",
+      overflow: "hidden",
+      height: 21,
+      lineHeight: 1.2,
+      fontSize: "1.2857rem",
+    },
+    "& p": {
+      width: "100%",
+      maxwidth: "50vw",
+      overflow: "hidden",
+      height: 21,
+      fontSize: "1rem",
+    },
+    "& a": {
+      display: "inline-Block",
+      minwidth: 56,
+      padding: "0 10px",
+      height: 32,
+      lineHeight: "32px",
+      border: `1px solid ${theme.palette.primary.contrastText}`,
+      background: theme.palette.primary.main,
+      color: theme.palette.primary.contrastText,
+      borderRadius: 2,
+    },
+    "& span": {
+      display: "block",
+      width: 32,
+      height: 32,
+      fontSize: 24,
+    },
+  },
+  gotoPC: {
+    background: theme.palette.primary.light,
+    borderRadius: 12,
+    lineHeight: "22px",
+    height: 22,
+    fontSize: 12,
+    padding: "0 12px",
+    color: theme.palette.common.white,
+  },
+});
